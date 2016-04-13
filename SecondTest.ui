@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>873</width>
+    <height>686</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QScrollArea" name="scrollArea">
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>-231</y>
+         <width>832</width>
+         <height>849</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QGroupBox" name="EuropeanOption">
+          <property name="title">
+           <string>Single Option Price</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <layout class="QGridLayout" name="gridLayout_2">
+             <item row="0" column="3">
+              <widget class="QLineEdit" name="EO_sigma">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="3">
+              <widget class="QLineEdit" name="EO_t"/>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLineEdit" name="EO_k"/>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="EO_r"/>
+             </item>
+             <item row="2" column="2">
+              <widget class="QLabel" name="label_12">
+               <property name="text">
+                <string>Option type:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_14">
+               <property name="text">
+                <string> Spot price of asset S(0):</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <widget class="QLabel" name="label_11">
+               <property name="text">
+                <string> Time to maturity (in years) T:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QLabel" name="label_9">
+               <property name="text">
+                <string> Volatility σ:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="EO_s">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_13">
+               <property name="text">
+                <string> Strike K:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_10">
+               <property name="text">
+                <string> Risk-free interest rate r:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="3">
+              <widget class="QComboBox" name="EO_type">
+               <property name="frame">
+                <bool>true</bool>
+               </property>
+               <item>
+                <property name="text">
+                 <string>Put Option</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Call Option</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QComboBox" name="EO_Method">
+               <item>
+                <property name="text">
+                 <string>European Option</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Geometric Asian Option</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Arithmetic Asian Option</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item row="3" column="2">
+              <widget class="QLabel" name="label_17">
+               <property name="text">
+                <string>The number of steps N:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_16">
+               <property name="text">
+                <string>Option Method:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="3">
+              <widget class="QLineEdit" name="EO_n"/>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="label_18">
+               <property name="text">
+                <string>Control variate:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QLineEdit" name="EO_variate"/>
+             </item>
+             <item row="4" column="2">
+              <widget class="QLabel" name="label_26">
+               <property name="text">
+                <string>The number of paths M:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="3">
+              <widget class="QLineEdit" name="EO_m"/>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="Line" name="line">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_5">
+             <property name="text">
+              <string>PushButton</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <spacer name="horizontalSpacer_3">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_6">
+               <property name="text">
+                <string>Option Price:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="lineEdit_12"/>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="ImpliedVol">
+          <property name="title">
+           <string>Implied Volatility Calculator</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <layout class="QGridLayout" name="gridLayout">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_15">
+               <property name="text">
+                <string> Spot price of asset S(0):</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Risk-free interest rate r:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="3">
+              <widget class="QLineEdit" name="Vol_pre"/>
+             </item>
+             <item row="2" column="2">
+              <widget class="QLabel" name="label_5">
+               <property name="text">
+                <string>Option premium:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_4">
+               <property name="text">
+                <string> Strike K:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLineEdit" name="Vol_k"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>Repo rate q:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="Vol_s"/>
+             </item>
+             <item row="0" column="3">
+              <widget class="QLineEdit" name="Vol_r"/>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="Vol_q"/>
+             </item>
+             <item row="1" column="2">
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string> Time to maturity (in years) T:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="3">
+              <widget class="QLineEdit" name="Vol_t"/>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_7">
+               <property name="text">
+                <string>Option type:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QComboBox" name="Vol_type">
+               <item>
+                <property name="text">
+                 <string>Put option</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Call option</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="Line" name="line_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton">
+             <property name="text">
+              <string>PushButton</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <item>
+              <spacer name="horizontalSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_8">
+               <property name="text">
+                <string>Option Price:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="Vol_ans"/>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox">
+          <property name="title">
+           <string>Basket Option Price</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <layout class="QGridLayout" name="gridLayout_3">
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_23">
+               <property name="text">
+                <string> Volatility σ2:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_21">
+               <property name="text">
+                <string>Strike K:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="BO_k"/>
+             </item>
+             <item row="4" column="3">
+              <widget class="QLineEdit" name="BO_m"/>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_25">
+               <property name="text">
+                <string>Risk-free interest rate r:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="2">
+              <widget class="QLabel" name="label_27">
+               <property name="text">
+                <string> Time to maturity (in years) T:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="2">
+              <widget class="QLabel" name="label_29">
+               <property name="text">
+                <string>The number of paths M:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="3">
+              <widget class="QLineEdit" name="Vol_sigma1"/>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLineEdit" name="BO_sigma2"/>
+             </item>
+             <item row="2" column="2">
+              <widget class="QLabel" name="label_24">
+               <property name="text">
+                <string>Correlation:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="3">
+              <widget class="QLineEdit" name="BO_s2"/>
+             </item>
+             <item row="0" column="2">
+              <widget class="QLabel" name="label_20">
+               <property name="text">
+                <string>Spot price of asset S2(0):</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <widget class="QLabel" name="label_22">
+               <property name="text">
+                <string> Volatility σ1:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="3">
+              <widget class="QLineEdit" name="BO_cor"/>
+             </item>
+             <item row="3" column="1">
+              <widget class="QLineEdit" name="BO_r"/>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="label_28">
+               <property name="text">
+                <string>Option type:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="3">
+              <widget class="QLineEdit" name="BO_t"/>
+             </item>
+             <item row="4" column="1">
+              <widget class="QComboBox" name="BO_type">
+               <item>
+                <property name="text">
+                 <string>Put Option</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Call Option</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="BO_s1"/>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_19">
+               <property name="text">
+                <string>Spot price of asset S1(0):</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <widget class="QLabel" name="label_31">
+               <property name="text">
+                <string>Option Method:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="1">
+              <widget class="QComboBox" name="BO_method">
+               <item>
+                <property name="text">
+                 <string>Arithmatic Basket Option</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Geometric Basket Option</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="Line" name="line_3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_2">
+             <property name="text">
+              <string>PushButton</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <spacer name="horizontalSpacer_5">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_30">
+               <property name="text">
+                <string>Option Price:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="lineEdit_14"/>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_6">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>873</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuOptionPricer">
+    <property name="title">
+     <string>OptionPricer</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="actionTest_1"/>
+    <addaction name="actionTest_2"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionManual"/>
+   </widget>
+   <addaction name="menuOptionPricer"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionTest_1">
+   <property name="text">
+    <string>test 1</string>
+   </property>
+  </action>
+  <action name="actionTest_2">
+   <property name="text">
+    <string>test 2</string>
+   </property>
+  </action>
+  <action name="actionManual">
+   <property name="text">
+    <string>manual</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
