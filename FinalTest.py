@@ -5,6 +5,11 @@
 # Created by: PyQt4 UI code generator 4.11.4
 #
 # WARNING! All changes made in this file will be lost!
+from math import log, sqrt, exp,pow
+from scipy.stats import norm
+import random
+import numpy
+import sys
 
 from PyQt4 import QtCore, QtGui
 
@@ -22,7 +27,11 @@ except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
 
-class Ui_MainWindow(object):
+class Ui_MainWindow(QtGui.QMainWindow):
+    def __init__(self):
+        QtGui.QMainWindow.__init__(self)
+        self.setupUi(self)
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.resize(873, 686)
@@ -34,7 +43,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName(_fromUtf8("scrollArea"))
         self.scrollAreaWidgetContents = QtGui.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -231, 832, 849))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -231, 832, 850))
         self.scrollAreaWidgetContents.setObjectName(_fromUtf8("scrollAreaWidgetContents"))
         self.verticalLayout_3 = QtGui.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setObjectName(_fromUtf8("verticalLayout_3"))
@@ -87,6 +96,7 @@ class Ui_MainWindow(object):
         self.gridLayout_2.addWidget(self.EO_type, 2, 3, 1, 1)
         self.EO_Method = QtGui.QComboBox(self.EuropeanOption)
         self.EO_Method.setObjectName(_fromUtf8("EO_Method"))
+        self.EO_Method.addItem(_fromUtf8(""))
         self.EO_Method.addItem(_fromUtf8(""))
         self.EO_Method.addItem(_fromUtf8(""))
         self.EO_Method.addItem(_fromUtf8(""))
@@ -284,6 +294,12 @@ class Ui_MainWindow(object):
         self.BO_method.addItem(_fromUtf8(""))
         self.BO_method.addItem(_fromUtf8(""))
         self.gridLayout_3.addWidget(self.BO_method, 5, 1, 1, 1)
+        self.label_32 = QtGui.QLabel(self.groupBox)
+        self.label_32.setObjectName(_fromUtf8("label_32"))
+        self.gridLayout_3.addWidget(self.label_32, 5, 2, 1, 1)
+        self.BO_ctr = QtGui.QLineEdit(self.groupBox)
+        self.BO_ctr.setObjectName(_fromUtf8("BO_ctr"))
+        self.gridLayout_3.addWidget(self.BO_ctr, 5, 3, 1, 1)
         self.verticalLayout_5.addLayout(self.gridLayout_3)
         self.line_3 = QtGui.QFrame(self.groupBox)
         self.line_3.setFrameShape(QtGui.QFrame.HLine)
@@ -336,6 +352,78 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        QtCore.QObject.connect(self.pushButton_5,QtCore.SIGNAL(_fromUtf8("clicked()")), self.EO_button_clicked)
+        QtCore.QObject.connect(self.pushButton,QtCore.SIGNAL(_fromUtf8("clicked()")), self.Vol_button_clicked)
+        QtCore.QObject.connect(self.pushButton_2,QtCore.SIGNAL(_fromUtf8("clicked()")), self.BO_button_clicked)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def EO_button_clicked(self):
+        s = float(self.EO_s.text())
+        k = float(self.EO_k.text())
+        t = float(self.EO_t.text())
+        sigma = float(self.EO_sigma.text())
+        r = float(self.EO_r.text())
+
+        if (self.EO_type.currentIndex() == 1 and self.EO_Method.currentIndex() == 0):
+            self.lineEdit_12.setText( str(eurOptionBSformulas(s,k,t,sigma,r,"C")) )
+        elif (self.EO_type.currentIndex() == 0 and self.EO_Method.currentIndex() == 0):
+            self.lineEdit_12.setText( str(eurOptionBSformulas(s,k,t,sigma,r,"P")) )
+        elif (self.EO_Method.currentIndex() == 1 and self.EO_type.currentIndex() == 1):
+            self.lineEdit_12.setText( str(geoAsianCPCal(s,k,sigma,r,t, int(self.EO_n.text()), "C")))
+        elif (self.EO_Method.currentIndex() == 1 and self.EO_type.currentIndex() == 0):
+            self.lineEdit_12.setText( str(geoAsianCPCal(s,k,sigma,r,t, int(self.EO_n.text()), "P")))
+        elif (self.EO_Method.currentIndex() == 2):
+            n = int(self.EO_n.text())
+            m = int(self.EO_m.text())
+            ctl = bool(self.EO_variate.text())
+            if (self.EO_type.currentIndex() == 0):
+                type = "P"
+            else:
+                type = "C"
+            self.lineEdit_12.setText(str( arithAsianCPCal(s,k,sigma,r,t,n,type,m,ctl) ))
+        elif (self.EO_Method.currentIndex() == 3):
+            if (self.EO_type.currentIndex() == 0):
+                type = "P"
+            else:
+                type = "C"
+            n = int(self.EO_n.text())
+            ans = binominalTree(s,sigma,r,t,k,n,type)
+            print (ans)
+            self.lineEdit_12.setText(str( binominalTree(s,sigma,r,t,k,n,type)))
+
+    def Vol_button_clicked(self):
+        value = float(self.Vol_pre.text())
+        s = float(self.Vol_s.text())
+        k = float(self.Vol_k.text())
+        r = float(self.Vol_r.text())
+        q = float(self.Vol_q.text())
+        t = float(self.Vol_t.text())
+        if (self.Vol_type.currentIndex() == 0):
+                type = "P"
+        else:
+                type = "C"
+        self.Vol_ans.setText( str(impliedVolCal(type,value,s,k,0,t,r,q)) )
+
+    def BO_button_clicked(self):
+        if (self.BO_type.currentIndex() == 0):
+                type = "P"
+        else:
+                type = "C"
+        s1 = float(self.BO_s1.text())
+        s2 = float(self.BO_s2.text())
+        sigma1 = float(self.Vol_sigma1.text())
+        sigma2 = float(self.BO_sigma2.text())
+        k = float(self.BO_k.text())
+        cor = float(self.BO_cor.text())
+        r = float(self.BO_r.text())
+        t = float(self.BO_t.text())
+        if (self.BO_method.currentIndex() == 0):
+            m = int(self.BO_m.text())
+            ctl = int(self.BO_ctr.text())
+            self.lineEdit_14.setText(str(arithAsianBasketCPCal(s1,s2,k,sigma1,sigma2,cor,r,t,m,type,ctl)))
+        else:
+            self.lineEdit_14.setText( str( geoAsianBasketCPCal(s1,s2,k,sigma1,sigma2,cor,r,t,type)))
+
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
@@ -351,6 +439,7 @@ class Ui_MainWindow(object):
         self.EO_Method.setItemText(0, _translate("MainWindow", "European Option", None))
         self.EO_Method.setItemText(1, _translate("MainWindow", "Geometric Asian Option", None))
         self.EO_Method.setItemText(2, _translate("MainWindow", "Arithmetic Asian Option", None))
+        self.EO_Method.setItemText(3, _translate("MainWindow", "Binominal Tree", None))
         self.label_17.setText(_translate("MainWindow", "The number of steps N:", None))
         self.label_16.setText(_translate("MainWindow", "Option Method:", None))
         self.label_18.setText(_translate("MainWindow", "Control variate:", None))
@@ -385,6 +474,7 @@ class Ui_MainWindow(object):
         self.label_31.setText(_translate("MainWindow", "Option Method:", None))
         self.BO_method.setItemText(0, _translate("MainWindow", "Arithmatic Basket Option", None))
         self.BO_method.setItemText(1, _translate("MainWindow", "Geometric Basket Option", None))
+        self.label_32.setText(_translate("MainWindow", "Control variate:", None))
         self.pushButton_2.setText(_translate("MainWindow", "PushButton", None))
         self.label_30.setText(_translate("MainWindow", "Option Price:", None))
         self.menuOptionPricer.setTitle(_translate("MainWindow", "OptionPricer", None))
@@ -393,3 +483,221 @@ class Ui_MainWindow(object):
         self.actionTest_2.setText(_translate("MainWindow", "test 2", None))
         self.actionManual.setText(_translate("MainWindow", "manual", None))
 
+
+#----------------------------------------------------------------------------------
+"""European option"""
+def eurOptionBSformulas(S,K,T,sigma,r,type):
+    d1 = (log(S/K)+r*(T)) / (sigma*sqrt(T)) + 0.5*sigma*sqrt(T)
+    d2 = (log(S/K)+r*(T)) / (sigma*sqrt(T)) - 0.5*sigma*sqrt(T)
+    Nd1 = norm.cdf(d1)
+    Nd2 = norm.cdf(d2)
+    Nd1n = norm.cdf(-d1)
+    Nd2n = norm.cdf(-d2)
+    C = S*Nd1 - K*exp(-r*(T))*Nd2
+    P = K*exp(-r*(T))*Nd2n - S*Nd1n
+    if type == 'C':
+        return C
+    if type == 'P':
+        return P
+"""Implied volatility calculation"""
+def impliedVolCal(callput, value, S, K, t, T, r, q):
+	sigma = sqrt(2 * abs((log(S/K) + (r-q)*(T-t)) / (T-t)))
+	tol = 1e-5
+	sigmadiff = 1
+	for i in range(0,100):
+		f = fx(callput, value, S, K, t, T, sigma, r, q)
+		fprime = fxDe(S, K, t, T, sigma, r, q)
+		sigmaNew = sigma - f/fprime
+		sigmadiff = abs(sigmaNew - sigma)
+		if sigmadiff < tol:
+			return sigmaNew
+		sigma = sigmaNew
+	return 'NaN'
+def fx(callput, value, S, K, t, T, sigma, r, q):
+	d1 = (log(S/K)+(r-q)*(T-t)) / (sigma*sqrt(T-t)) + 0.5*sigma*sqrt(T-t)
+	d2 = (log(S/K)+(r-q)*(T-t)) / (sigma*sqrt(T-t)) - 0.5*sigma*sqrt(T-t)
+	Nd1 = norm.cdf(d1)
+	Nd2 = norm.cdf(d2)
+	Nd1n = norm.cdf(-d1)
+	Nd2n = norm.cdf(-d2)
+	C = S*exp(-q*(T-t))*Nd1 - K*exp(-r*(T-t))*Nd2
+	P = K*exp(-r*(T-t))*Nd2n - S*exp(-q*(T-t))*Nd1n
+	if callput == 'C':
+		return C-value
+	if callput == 'P':
+		return P-value
+
+def fxDe(S, K, t, T, sigma, r, q):
+	d1 = (log(S/K)+(r-q)*(T-t)) / (sigma*sqrt(T-t)) + 0.5*sigma*sqrt(T-t)
+	yprime = S*exp(-q*(T-t))*sqrt(T-t)*norm.pdf(d1)
+	return yprime
+
+
+"""Geometric Asian call/put option"""
+def geoAsianCPCal(S, K, sigma, r, T, n, type):
+    sigsqT = pow(sigma,2)*T*(n+1)*(2*n+1)/(6*n*n)
+    muT = 0.5*sigsqT + (r-0.5*pow(sigma,2))*T*(n+1)/(2*n)
+    d1 = (log(S/K) +(muT + 0.5*sigsqT))/sqrt(sigsqT)
+    d2 = d1 - sqrt(sigsqT)
+    Nd1 = norm.cdf(d1)
+    Nd2 = norm.cdf(d2)
+    Nd1n = norm.cdf(-d1)
+    Nd2n = norm.cdf(-d2)
+    if type == 'C':
+        geo = exp(-r*T)*(S*exp(muT)*Nd1 - K*Nd2)
+    if type == 'P':
+        geo = exp(-r*T)*(-S*exp(muT)*Nd1n + K*Nd2n)
+    return geo
+
+"""Geometric Asian basket call/put option"""
+def geoAsianBasketCPCal(S1,S2,K, sigma1,sigma2,cor, r, T, type):
+    S = sqrt((S1*S2))
+    sigsqT = (pow(sigma1,2)+pow(sigma2,2)+2*sigma1*sigma2*cor)*T/(4)
+
+    muT = 0.5*sigsqT + (r - 0.5 * (pow(sigma1,2)+pow(sigma2,2))/2)*T
+    d1 = (log(S/K) +(muT + 0.5*sigsqT))/sqrt(sigsqT)
+    d2 = d1 - sqrt(sigsqT)
+
+    Nd1 = norm.cdf(d1)
+    Nd2 = norm.cdf(d2)
+    Nd1n = norm.cdf(-d1)
+    Nd2n = norm.cdf(-d2)
+    if type == 'C':
+        geo = exp(-r*T)*(S*exp(muT)*Nd1 - K*Nd2)
+    if type == 'P':
+        geo = exp(-r*T)*(-S*exp(muT)*Nd1n + K*Nd2n)
+    return geo
+
+"""Control variates for Arithmetric Asian Option"""
+def arithAsianCPCal(S, K, sigma, r, T, n, type,M,ctl):
+    numpy.random.seed(1000)
+    Dt = float(T)/n
+    drift = exp((r-0.5*pow(sigma,2))*Dt)
+    Spath = [None]*n
+    arithPayoff =[None]*M
+    geoPayoff = [None]*M
+    for i in range(0,M):
+        growthFactor =  drift * exp(sigma*sqrt(Dt)*numpy.random.randn())
+        Spath[0] = S * growthFactor
+        for j in range(1,n):
+            growthFactor =  drift * exp(sigma*sqrt(Dt)*numpy.random.randn())
+            Spath[j] = Spath[j-1] * growthFactor
+        arithMean = numpy.mean(Spath)
+        geoMean = exp(1.0/n*numpy.sum(numpy.log(Spath)))
+        if type == 'C':
+            arithPayoff[i] = exp(-r*T)*numpy.maximum(arithMean-K,0)
+            geoPayoff[i] = exp(-r*T)*numpy.maximum(geoMean-K,0)
+
+        if type == 'P':
+            arithPayoff[i] = exp(-r*T)*numpy.maximum(K-arithMean,0)
+            geoPayoff[i] = exp(-r*T)*numpy.maximum(K-geoMean,0)
+
+    Pmean = numpy.mean(arithPayoff)
+    Pstd = numpy.std(arithPayoff)
+    confmlow, comfmup = Pmean-1.96*Pstd/sqrt(M), Pmean+1.96*Pstd/sqrt(M)
+    if ctl == 0:
+        return confmlow, comfmup
+
+    """Control variate"""
+    covXY = numpy.mean(numpy.multiply(arithPayoff,geoPayoff))- numpy.mean(arithPayoff)*numpy.mean(geoPayoff)
+    theta = covXY/numpy.var(geoPayoff)
+    geo = geoAsianCPCal(S, K, sigma, r, T, n, type)
+
+    Z = numpy.add(arithPayoff, numpy.multiply(theta , (numpy.subtract(geo,geoPayoff))))
+    Zmean = numpy.mean(Z)
+    Zstd = numpy.std(Z)
+
+    confcvlow,confcvup = Zmean - 1.96*Zstd/sqrt(M), Zmean + 1.96*Zstd/sqrt(M)
+
+    if ctl == 1:
+        return confcvlow, confcvup
+
+"""Control variates for Arithmetric Asian Basket Option"""
+def arithAsianBasketCPCal(S1,S2,K, sigma1,sigma2,cor, r, T, M, type, ctl):
+    numpy.random.seed(1000)
+    arithPayoff =[None]*M
+    geoPayoff = [None]*M
+    for i in range(0,M):
+        rdn1 = numpy.random.randn()
+        S1T = S1 * exp( (r-0.5*pow(sigma1, 2)) * T + sigma1 * sqrt(T) * rdn1 )
+        rdn2 = cor * rdn1 + sqrt(1 - cor * cor) * numpy.random.randn()
+        S2T = S2 * exp( (r-0.5*pow(sigma2, 2)) * T + sigma2 * sqrt(T) * rdn2 )
+
+        arithMean = (S1T+S2T)/2
+        geoMean = sqrt(S1T * S2T)
+        if type == 'C':
+            arithPayoff[i] = exp(-r*T)*numpy.maximum(arithMean-K,0)
+            geoPayoff[i] = exp(-r*T)*numpy.maximum(geoMean-K,0)
+
+        if type == 'P':
+            arithPayoff[i] = exp(-r*T)*numpy.maximum(K-arithMean,0)
+            geoPayoff[i] = exp(-r*T)*numpy.maximum(K-geoMean,0)
+
+    Pmean = numpy.mean(arithPayoff)
+    Pstd = numpy.std(arithPayoff)
+    confmlow, comfmup = Pmean-1.96*Pstd/sqrt(M), Pmean+1.96*Pstd/sqrt(M)
+    if ctl == 0:
+        return confmlow, comfmup
+
+    """Control variate"""
+    covXY = numpy.mean(numpy.multiply(arithPayoff,geoPayoff))- numpy.mean(arithPayoff)*numpy.mean(geoPayoff)
+    theta = covXY/numpy.var(geoPayoff)
+
+    geo = geoAsianBasketCPCal(S1,S2,K,sigma1,sigma2,cor, r, T,  type)
+    Z = numpy.add(arithPayoff, numpy.multiply(theta , (numpy.subtract(geo,geoPayoff))))
+    Zmean = numpy.mean(Z)
+    Zstd = numpy.std(Z)
+
+    confcvlow,confcvup = Zmean - 1.96*Zstd/sqrt(M), Zmean + 1.96*Zstd/sqrt(M)
+
+    if ctl == 1:
+        return confcvlow, confcvup
+
+
+def binominalTree(S, sigma, r, T, K, N, optionType):
+	t = T/N
+	u = exp(sigma*sqrt(t))
+	d = exp(-sigma*sqrt(t))
+	p = (exp(r*t)-d) / (u-d)
+	StockPrice = {0: [S]}
+	for n in range(N):
+		StockPrice[n+1] = []
+		for price in StockPrice[n]:
+			StockPrice[n+1].append(price*u)
+		StockPrice[n+1].append(StockPrice[n][-1] * d)
+
+	OptionPrice = {N: []}
+	if optionType == 'C':
+		for price in StockPrice[N]:
+			if price > K:
+				OptionPrice[N].append(price-K)
+			else:
+				OptionPrice[N].append(0.0)
+		for n in range(N)[::-1]:
+			OptionPrice[n] = []
+			for i in range(len(OptionPrice[n+1])-1):
+				fu = OptionPrice[n+1][i]
+				fd = OptionPrice[n+1][i+1]
+				f = exp(-r*t) * (p*fu+(1-p)*fd)
+				OptionPrice[n].append( max(f, StockPrice[n][i]-K) )
+	if optionType == 'P':
+		for price in StockPrice[N]:
+			if price < K:
+				OptionPrice[N].append(K-price)
+			else:
+				OptionPrice[N].append(0.0)
+		for n in range(N)[::-1]:
+			OptionPrice[n] = []
+			for i in range(len(OptionPrice[n+1])-1):
+				fu = OptionPrice[n+1][i]
+				fd = OptionPrice[n+1][i+1]
+				f = exp(-r*t) * (p*fu+(1-p)*fd)
+				OptionPrice[n].append( max(f, K-StockPrice[n][i]) )
+	return OptionPrice[0][0]
+
+
+if __name__ == '__main__':
+    app = QtGui.QApplication(sys.argv)
+    main_window = Ui_MainWindow()
+    main_window.show()
+    sys.exit(app.exec())
